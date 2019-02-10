@@ -25,6 +25,12 @@ void	lst_check(t_list **gnl_lst, inf fd)
 	    return (NULL);
 }
 
+void    read_file(t_list *tmp_lst)
+{
+    int size_of_read;
+
+}
+
 int				get_next_line(const int fd, char **line)
 {
 	static	t_list *gnl_lst;
