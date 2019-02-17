@@ -22,14 +22,23 @@ void	lst_check(t_list **gnl_lst, inf fd)
 			return (tmp_lst);
 		tmp_lst = tmp_lst->next;
 	}
-	    return (NULL);
+	return (NULL);
 }
 
 void    read_file(t_list *tmp_lst)
 {
-    int size_of_read;
+    int		read_size;
+    char	buffer[BUFF_SIZE + 1];
+
+    while (!ft_strchr(tmp_lst->content, '\n') || tmp_lst->content == NULL)
+    {
+    	read_size = read(tmp_lst->content_size, buffer, BUFF_SIZE);
+
+   	}
 
 }
+
+
 
 int				get_next_line(const int fd, char **line)
 {
@@ -37,13 +46,14 @@ int				get_next_line(const int fd, char **line)
 	t_list  tmp_lst;
 	char	buff[BUFF_SIZE + 1];
 
-	if(fd < 0 || line == NULL || BUFF_SIZE < 1 || read(fd, buff, 0) < 0)
+	if(fd < 0 || line == NULL || BUFF_SIZE < 1)
 		return (-1);
 	tmp_lst = lst_check(&gnl_lst, fd);
 	if (tmp_lst == NULL)
     {
 	    tmp_lst = lst_new(NULL, 0);
-	    tmp_lst.content_size = fd;
+	    tmp_lst->content_size = fd;
 	    ft_lstadd(gnl_lst, tmp_lst);
     }
+    read_file(tmp_lst);
 }
