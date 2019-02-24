@@ -1,3 +1,0 @@
-C:/Users/LtGenFlower/Desktop/projects/CLIne/GNL/libft/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/LtGenFlower/Desktop/projects/CLIne/GNL/libft/cmake-build-debug/CMakeFiles/libtest.dir
-C:/Users/LtGenFlower/Desktop/projects/CLIne/GNL/libft/cmake-build-debug/CMakeFiles/rebuild_cache.dir

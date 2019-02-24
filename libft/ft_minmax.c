@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_minimum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdatskov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/24 16:24:21 by sdatskov          #+#    #+#             */
-/*   Updated: 2018/10/24 16:24:25 by sdatskov         ###   ########.fr       */
+/*   Created: 2019/01/06 15:11:52 by sdatskov          #+#    #+#             */
+/*   Updated: 2019/01/06 15:15:50 by sdatskov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+int		ft_minmax(int a, int b, char point)
 {
-	char	*arr;
-	size_t	i;
-
-	arr = (char *)s;
-	i = 0;
-	while (i < n)
-	{
-		if ((unsigned char)arr[i] == (unsigned char)c)
-			return ((char *)s + i);
-		i++;
-	}
-	return (NULL);
+	if (point == '<')
+		return (a < b ? a : b);
+	else if (point == '>')
+		return (a > b ? a : b);
+	else
+		return (0);
 }

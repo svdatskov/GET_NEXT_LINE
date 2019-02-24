@@ -3,39 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdanyliu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sdatskov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/25 14:13:40 by vdanyliu          #+#    #+#             */
-/*   Updated: 2018/11/02 13:15:28 by vdanyliu         ###   ########.fr       */
+/*   Created: 2018/10/26 18:49:09 by sdatskov          #+#    #+#             */
+/*   Updated: 2018/10/26 18:49:11 by sdatskov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dest, const char *src, size_t n)
+char	*ft_strncpy(char *destptr, const char *srcptr, size_t num)
 {
-	int i;
-	int j;
-	int k;
+	size_t i;
+	size_t j;
 
-	i = ft_strlen(src);
-	k = n;
-	j = 0;
-	if (k >= i)
+	i = 0;
+	j = ft_strlen(srcptr);
+	if (j <= num)
 	{
-		while (j < i)
+		while (i < num)
 		{
-			dest[j] = src[j];
-			j++;
+			if (i < j)
+				destptr[i] = srcptr[i];
+			else if (i < num)
+				destptr[i] = '\0';
+			i++;
 		}
-		while (j < k)
-			dest[j++] = '\0';
-		return (dest);
+		return (destptr);
 	}
-	while (j < k)
+	while (i < num)
 	{
-		dest[j] = src[j];
-		j++;
+		destptr[i] = srcptr[i];
+		i++;
 	}
-	return (dest);
+	return (destptr);
 }

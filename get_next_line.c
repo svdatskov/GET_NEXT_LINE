@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdatskov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/24 15:05:11 by vdanyliu          #+#    #+#             */
-/*   Updated: 2019/01/04 17:44:51 by vdanyliu         ###   ########.fr       */
+/*   Created: 2018/12/24 15:05:11 by sdatskov          #+#    #+#             */
+/*   Updated: 2019/01/04 17:44:51 by sdatskov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	lst_check(t_list **gnl_lst, inf fd)
+t_list	lst_check(t_list **gnl_lst, int fd)
 {
 	t_list *tmp_lst;
 
@@ -32,8 +32,12 @@ void    read_file(t_list *tmp_lst)
 
     while (!ft_strchr(tmp_lst->content, '\n') || tmp_lst->content == NULL)
     {
-    	read_size = read(tmp_lst->content_size, buffer, BUFF_SIZE);
-
+        read_size = read(tmp_lst->content_size, buffer, BUFF_SIZE);
+    	buffer[read_size] = '\0';
+		if (tmp_lst->content == NULL)
+			tmp_lst->content = ft_strdup(BUFF_SIZE + 1);
+		else
+			tmp_lst->content = ft_strcat(tmp_lst->content,buffer);
    	}
 
 }
@@ -56,4 +60,8 @@ int				get_next_line(const int fd, char **line)
 	    ft_lstadd(gnl_lst, tmp_lst);
     }
     read_file(tmp_lst);
+	if ((int)ft_strlen(tmp_lst->content) != 0)
+	    return (1);
+	else
+	    return (0);
 }

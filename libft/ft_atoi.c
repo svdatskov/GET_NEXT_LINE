@@ -3,40 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdanyliu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sdatskov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/26 12:00:31 by vdanyliu          #+#    #+#             */
-/*   Updated: 2018/10/31 15:48:13 by vdanyliu         ###   ########.fr       */
+/*   Created: 2018/08/13 18:52:42 by sdatskov          #+#    #+#             */
+/*   Updated: 2018/10/24 16:22:04 by sdatskov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_atoi(const char *str)
+int			ft_atoi(const char *s)
 {
-	long	m;
-	long	r;
+	long		res;
+	long		minus;
 
-	m = 0;
-	r = 0;
-	while (*str == 32 || (*str >= 9 && *str <= 13))
-		str++;
-	if (*str == '-' || *str == '+')
+	res = 0;
+	minus = 1;
+	while ((*s >= 9 && *s <= 13) || *s == ' ')
+		s++;
+	if (*s == '-' || *s == '+')
 	{
-		if (*str == '-')
-			m++;
-		str++;
+		if (*s == '-')
+			minus = -1;
+		s++;
 	}
-	while (*str >= '0' && *str <= '9')
+	while (*s >= '0' && *s <= '9')
 	{
-		if (9223372036854775807 - r < *str - '0')
+		if (9223372036854775807 - res < *s - 48)
 		{
-			if (m == 0)
+			if (minus == 1)
 				return (-1);
 			else
 				return (0);
 		}
-		r = r * 10 + (*str++ - '0');
+		res = (res * 10) + (*s++ - 48);
 	}
-	return (m ? -r : r);
+	return (res * minus);
 }

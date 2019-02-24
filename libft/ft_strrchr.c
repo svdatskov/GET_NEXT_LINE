@@ -3,36 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdanyliu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sdatskov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/25 17:13:10 by vdanyliu          #+#    #+#             */
-/*   Updated: 2018/10/25 17:22:08 by vdanyliu         ###   ########.fr       */
+/*   Created: 2018/10/28 15:15:41 by sdatskov          #+#    #+#             */
+/*   Updated: 2018/10/28 15:15:43 by sdatskov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_strrchr(const char *string, int symbol)
 {
-	char	*adr;
-	int		i;
+	int i;
+	int s;
 
+	s = ft_strlen(string);
 	i = 0;
-	while (*s)
+	if (symbol == 0)
+		return ((char *)string + s);
+	while (s >= i)
 	{
-		if (*s == c)
-		{
-			i = 1;
-			adr = (char*)s;
-		}
-		s++;
+		if (string[s] == symbol)
+			return ((char *)string + s);
+		s--;
 	}
-	if (*s == c)
-	{
-		i = 1;
-		adr = (char*)s;
-	}
-	if (i == 1)
-		return (adr);
-	return (NULL);
+	return (0);
 }

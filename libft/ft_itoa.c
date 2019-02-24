@@ -3,47 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdanyliu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sdatskov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/28 15:29:50 by vdanyliu          #+#    #+#             */
-/*   Updated: 2018/10/31 11:39:01 by vdanyliu         ###   ########.fr       */
+/*   Created: 2018/10/30 21:09:31 by sdatskov          #+#    #+#             */
+/*   Updated: 2018/11/04 19:21:21 by sdatskov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_strrevitoa(char *str)
+static char	*ft_appendix(int i, int n, int b, char *str)
 {
-	if (!str)
-		return (0);
-	return (ft_strrev(str));
+	int j;
+
+	if (n < 0)
+	{
+		str[b++] = '-';
+		if (n < -2147483647)
+		{
+			str[b++] = '2';
+			n = -147483648;
+			i /= 10;
+		}
+		n = -n;
+	}
+	while (i >= 1)
+	{
+		j = n / i;
+		str[b] = j + 48;
+		n %= i;
+		i /= 10;
+		b++;
+	}
+	str[b] = '\0';
+	return (str);
 }
 
 char		*ft_itoa(int n)
 {
-	char		*str;
-	char		*buf;
-	int			i;
-	long int	nb;
+	int		i;
+	int		num;
+	int		len;
+	int		b;
+	char	*str;
 
-	i = 0;
-	nb = n;
-	if (!(str = ft_strnew(ft_charcount(n))))
-		return (0);
-	buf = str;
-	if (n < 0)
+	num = n;
+	b = 0;
+	i = 1;
+	len = 1;
+	while (num > 9 || num < -9)
 	{
-		i = 1;
-		nb *= -1;
+		i *= 10;
+		num /= 10;
+		len++;
 	}
-	if (n == 0)
-		*str = '0';
-	while (nb != 0)
-	{
-		*str++ = nb % 10 + '0';
-		nb /= 10;
-	}
-	if (i == 1)
-		*str = '-';
-	return (ft_strrevitoa(buf));
+	str = (char *)malloc(sizeof(char) * len + (n < 0 ? 2 : 1));
+	if (!str)
+		return (NULL);
+	ft_appendix(i, n, b, str);
+	return (str);
 }

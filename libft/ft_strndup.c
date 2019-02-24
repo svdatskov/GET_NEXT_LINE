@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdatskov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/24 16:24:21 by sdatskov          #+#    #+#             */
-/*   Updated: 2018/10/24 16:24:25 by sdatskov         ###   ########.fr       */
+/*   Created: 2019/01/06 12:00:45 by sdatskov          #+#    #+#             */
+/*   Updated: 2019/01/06 12:00:50 by sdatskov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+char	*ft_strndup(const char *s1, size_t n)
 {
-	char	*arr;
-	size_t	i;
+	char	*c;
+	size_t	j;
 
-	arr = (char *)s;
-	i = 0;
-	while (i < n)
+	j = ft_strlen(s1);
+	if (n >= j)
 	{
-		if ((unsigned char)arr[i] == (unsigned char)c)
-			return ((char *)s + i);
-		i++;
+		c = malloc(sizeof(char) * (j + 1));
+		if (c == 0)
+			return (0);
+		ft_strcpy(c, s1);
 	}
-	return (NULL);
+	else
+	{
+		c = malloc(sizeof(char) * (n + 1));
+		if (c == 0)
+			return (0);
+		ft_strncpy(c, s1, n);
+	}
+	return (c);
 }

@@ -3,46 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdanyliu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sdatskov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/28 11:00:01 by vdanyliu          #+#    #+#             */
-/*   Updated: 2018/10/29 16:26:37 by vdanyliu         ###   ########.fr       */
+/*   Created: 2018/11/04 15:37:38 by sdatskov          #+#    #+#             */
+/*   Updated: 2018/11/04 15:37:40 by sdatskov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_whitespasec(char s)
-{
-	if (s == ' ' || s == '\t' || s == '\n')
-		return (1);
-	return (0);
-}
-
-char		*ft_strtrim(char const *s)
+char	*ft_strtrim(char const *s)
 {
 	int		i;
+	int		b;
 	int		j;
 	char	*str;
 
-	if (s != 0)
-	{
-		i = 0;
-		j = 0;
-		while (ft_whitespasec(s[i]))
-			i++;
-		while (s[j])
-			j++;
-		j--;
-		while (ft_whitespasec(s[j]))
-			j--;
-		if (j == -1)
-			i = 0;
-		str = ft_strnew(j - i + 1);
-		if (str == 0)
-			return (0);
-		str = ft_strncpy(str, (s + sizeof(char) * i), (j - i + 1));
-		return (str);
-	}
-	return (0);
+	i = 0;
+	j = 0;
+	if (s == NULL)
+		return (NULL);
+	b = ft_strlen(s) - 1;
+	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
+		i++;
+	if (s[i] == '\0')
+		return (ft_strcpy(malloc(sizeof(char) * 2), ""));
+	while (s[b] == ' ' || s[b] == '\n' || s[b] == '\t')
+		b--;
+	str = (char *)malloc(sizeof(char) * (b - (i - 1) + 1));
+	if (!str)
+		return (NULL);
+	while (i <= b)
+		str[j++] = s[i++];
+	str[j] = '\0';
+	return (str);
 }
