@@ -24,11 +24,16 @@ int		main(void)
     i = 13;
 	line = NULL;
 	fd1 = open("../war", O_RDONLY);
-	//fd2 = open("../text2.txt", O_RDONLY);
+	fd2 = open("../war", O_RDONLY);
 	while (get_next_line(fd1, &line) > 0)
 	{
 		ft_putendl(line);
 		free(line);
+		while (get_next_line(fd2, &line) > 0)
+		{
+			ft_putendl(line);
+			free(line);
+		}
 	}
 	//while (i-- != 0)
     //{
@@ -39,7 +44,7 @@ int		main(void)
         //ft_putendl(line);
         //free(line);
     //}
-	system("leaks -q a.out");
+	system("leaks -q gnl");
 	close(fd1);
 	//close(fd2);
 	return (0);

@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/svdatskov/Desktop/GET_NEXT_LINE/get_next_line.c
+get_next_line.h
+/Users/svdatskov/Desktop/GET_NEXT_LINE/get_next_line.h
+
+/Users/svdatskov/Desktop/GET_NEXT_LINE/get_next_line.h
+libft/libft.h
+/Users/svdatskov/Desktop/GET_NEXT_LINE/libft/libft.h
+fcntl.h
+-
+string.h
+-
+unistd.h
+-
+stdlib.h
+-
+stdio.h
+-
+sys/stat.h
+-
+sys/types.h
+-
+
+/Users/svdatskov/Desktop/GET_NEXT_LINE/libft/libft.h
+stdlib.h
+-
+string.h
+-
+unistd.h
+-
+

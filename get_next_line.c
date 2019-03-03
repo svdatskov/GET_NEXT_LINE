@@ -12,56 +12,91 @@
 
 #include "get_next_line.h"
 
-t_list	lst_check(t_list **gnl_lst, int fd)
+static t_gnl	*lst_check(t_gnl **gnl_lst, int fd)
 {
-	t_list *tmp_lst;
-
-	tmp_lst = *gnl_lst;
-	while (tmp_lst != NULL) {
-		if ((int) tmp_lst->content_size == fd)
-			return (tmp_lst);
-		tmp_lst = tmp_lst->next;
+	t_gnl *buff;
+	if ((*gnl_lst) == NULL)
+	{
+		(*gnl_lst) = (t_gnl*)malloc(sizeof(buff));
+		(*gnl_lst)->fd = fd;
+		(*gnl_lst)->content = ft_strdup("");
+        (*gnl_lst)->next = NULL;
+		return ((*gnl_lst));
 	}
-	return (NULL);
+	buff = *gnl_lst;
+	while (buff->next != NULL)
+	{
+		if (buff->fd == fd)
+			return (buff);
+		buff = buff->next;
+	}
+	if (buff->fd == fd)
+		return (buff);
+	buff->next = (t_gnl*)malloc(sizeof(buff));
+	buff->next->fd = fd;
+	buff->next->content = ft_strdup("");
+	buff->next->next = NULL;
+	return (buff->next);
 }
 
-void    read_file(t_list *tmp_lst)
+static char 	*gnl_writer(char *str)
 {
-    int		read_size;
-    char	buffer[BUFF_SIZE + 1];
+	char	*buff;
+	char 	*line;
 
-    while (!ft_strchr(tmp_lst->content, '\n') || tmp_lst->content == NULL)
-    {
-        read_size = read(tmp_lst->content_size, buffer, BUFF_SIZE);
-    	buffer[read_size] = '\0';
-		if (tmp_lst->content == NULL)
-			tmp_lst->content = ft_strdup(BUFF_SIZE + 1);
-		else
-			tmp_lst->content = ft_strcat(tmp_lst->content,buffer);
-   	}
-
+	buff = str;
+	while (*buff && *buff != '\n')
+		buff++;
+	line = ft_strsub(str, 0, (buff - str));
+	return (line);
 }
 
+static void		gnl_rewrite(t_gnl *fd_head)
+{
+	char	*buff;
+	char	*leak;
+	char    *str;
 
+	str = fd_head->content;
+	buff = str;
+	while (*buff && *buff != '\n')
+		buff++;
+	if (*buff == '\0' || *(buff + 1) == '\0')
+	{
+		free(str);
+		str = ft_strdup("");
+	}
+	leak = str;
+	fd_head->content = ft_strdup(buff + 1);
+	free(leak);
+}
 
 int				get_next_line(const int fd, char **line)
 {
-	static	t_list *gnl_lst;
-	t_list  tmp_lst;
-	char	buff[BUFF_SIZE + 1];
+	static t_gnl	*gnl_lst = NULL;
+	t_gnl			*fd_line;
+	char			buff[BUFF_SIZE + 1];
+	int 			i;
+	char			*leak;
 
-	if(fd < 0 || line == NULL || BUFF_SIZE < 1)
+	if (fd < 0 || (read(fd, NULL, 0) < 0) || !line)
 		return (-1);
-	tmp_lst = lst_check(&gnl_lst, fd);
-	if (tmp_lst == NULL)
-    {
-	    tmp_lst = lst_new(NULL, 0);
-	    tmp_lst->content_size = fd;
-	    ft_lstadd(gnl_lst, tmp_lst);
-    }
-    read_file(tmp_lst);
-	if ((int)ft_strlen(tmp_lst->content) != 0)
-	    return (1);
-	else
-	    return (0);
+	fd_line = lst_check(&gnl_lst, fd);
+	if (fd_line->content != NULL && ft_strchr(fd_line->content, '\n') == 0)
+	{
+		while ((i = read(fd, buff, BUFF_SIZE)) > 0)
+		{
+			buff[i] = '\0';
+			leak = fd_line->content;
+			fd_line->content = ft_strjoin(fd_line->content, buff);
+			free(leak);
+			if (ft_strchr(buff, '\n') != 0)
+				break ;
+		}
+	}
+	*line = gnl_writer(fd_line->content);
+	if (ft_strlen(*line) == 0 && ft_strlen(fd_line->content) == 0)
+		return (0);
+	gnl_rewrite(fd_line);
+	return (1);
 }
